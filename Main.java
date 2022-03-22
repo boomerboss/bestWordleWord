@@ -37,7 +37,7 @@ public class Main {
                 robot.keyRelease(KeyEvent.VK_SHIFT);
             }
         }
-    }
+    } // outputs characters as if they were typed on a keyboard THIS COULD BE DANGEROUS USE WITH CAUTION
 
     public static void rightArrow() {
         try {
@@ -49,7 +49,7 @@ public class Main {
         } catch (AWTException e) {
             e.printStackTrace();
         }
-    }
+    } // types right arrow on keyboard
 
     public static void leftAndDownArrow() {
         try {
@@ -63,19 +63,19 @@ public class Main {
         } catch (AWTException e) {
             e.printStackTrace();
         }
-    }
+    } // types the left arrow then down arrow on keyboard
 
     public static void printArray(String[] arrayToPrint) {
         for (String s : arrayToPrint) {
             System.out.println(s);
         }
-    }
+    } // used for debugging
 
     public static void printList(List<String> listToPrint) {
         for (int i = 0; i < listToPrint.size(); i++) {
             System.out.println(listToPrint.get(i));
         }
-    }
+    } // used for debugging
 
     public static String[] presence(String guessWord, String endWord) {
         //
@@ -162,7 +162,7 @@ public class Main {
             }
         }
         return TestedWords;
-    }
+    } // filters a list for a position with a green letter
 
     public static double rating(String guessWord, String endWord) throws IOException { //percent removed
         String[] presence = presence(guessWord, endWord);
@@ -175,87 +175,57 @@ public class Main {
         List<String> filter5 = new ArrayList<>();
 
 
-        // for every gray in presence[], if that letter is not in the endWord being tested, add it to grayCheck list
         if (presence[0].equals("gray")) {  // when a status is gray, check all endWordGrayTestChars for the letter after the gray
             filter1 = grayTest(presence[1], Arrays.asList(endWords));
-            //System.out.println("gray");
         } else if (presence[0].equals("yellow")) {
             filter1 = yellowTest(presence[1], Arrays.asList(endWords));
-            //System.out.println("yellow");
         } else if (presence[0].equals("green")) {
             filter1 = greenTest(1, presence[1], Arrays.asList(endWords));
-            //System.out.println("green");
         }
-        //printList(filter1);
-        //System.out.println("---------------------------------------------------------------------------------------");
 
         if (presence[2].equals("gray")) {
             filter2 = grayTest(presence[3], filter1);
-            //System.out.println("gray");
         } else if (presence[2].equals("yellow")) {
             filter2 = yellowTest(presence[3], filter1);
-            //System.out.println("yellow");
         } else if (presence[2].equals("green")) {
             filter2 = greenTest(2, presence[3], filter1);
-            //System.out.println("green");
         }
-        //printList(filter2);
-        //System.out.println("---------------------------------------------------------------------------------------");
-
 
         if (presence[4].equals("gray")) {
             filter3 = grayTest(presence[5], filter2);
-            //System.out.println("gray");
         } else if (presence[4].equals("yellow")) {
             filter3 = yellowTest(presence[5], filter2);
-            //System.out.println("yellow");
         } else if (presence[4].equals("green")) {
             filter3 = greenTest(3, presence[5], filter2);
-            //System.out.println("green");
         }
-        //printList(filter3);
-        //System.out.println("---------------------------------------------------------------------------------------");
-
 
         if (presence[6].equals("gray")) {
             filter4 = grayTest(presence[7], filter3);
-            //System.out.println("gray");
         } else if (presence[6].equals("yellow")) {
             filter4 = yellowTest(presence[7], filter3);
-            //System.out.println("yellow");
         } else if (presence[6].equals("green")) {
             filter4 = greenTest(4, presence[7], filter3);
-            //System.out.println("green");
         }
-        //printList(filter4);
-        //System.out.println("---------------------------------------------------------------------------------------");
-
 
         if (presence[8].equals("gray")) {
             filter5 = grayTest(presence[9], filter4);
-            //System.out.println("gray");
         } else if (presence[8].equals("yellow")) {
             filter5 = yellowTest(presence[9], filter4);
-            //System.out.println("yellow");
         } else if (presence[8].equals("green")) {
             filter5 = greenTest(5, presence[9], filter4);
-            //System.out.println("green");
         }
-        //printList(filter5);
-        //System.out.println("---------------------------------------------------------------------------------------");
-
 
         return 100.0 - (100 * (filter5.size() / (double) 2315));
-    }
+    } // returns a percent of answers removed from the list possible answers
 
     public static void main(String[] args) throws IOException, AWTException, InterruptedException {
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(5); // give time to prepare to type
         String[] endWords = readEndWords();
         String[] guessWords = readGuessWords();
 
         for (int i = 0; i < guessWords.length; i++) {
             if (i % 250 == 0 && i != 0) {
-                TimeUnit.SECONDS.sleep(20);
+                TimeUnit.SECONDS.sleep(20); // gives time for Google sheets to save
             }
             double totalScore = 0;
 
@@ -264,9 +234,9 @@ public class Main {
             }
 
             double averageRating = totalScore / 2315;
-            writeString(guessWords[i]);
+            writeString(guessWords[i]); // prints the guessWord
             rightArrow();
-            writeString(String.valueOf(averageRating));
+            writeString(String.valueOf(averageRating)); // prints the following value applied to it
             leftAndDownArrow();
         }
     }
